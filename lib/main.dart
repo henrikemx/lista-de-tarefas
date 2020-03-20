@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lista_tarefas_bloc/mobx/counter_mobx.dart';
+import 'package:lista_tarefas_bloc/mobx/counter_mobx_codegen.dart';
 import 'bloc/counter_bloc.dart';
 import 'pages/ToDo_Bloc_Page.dart';
 
@@ -31,6 +34,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   CounterBloc _counterBloc = CounterBloc();
+  CounterMobX _counterMobX = CounterMobX();
+  CounterMobXCodegen _counterMobXCodegen = CounterMobXCodegen();
+
   int counter = 0;
 
   @override
@@ -46,27 +52,39 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'Número de vezes em que tocou no botão:',
             ),
-            StreamBuilder(
-              stream: _counterBloc.output,
-              builder: ((BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return CircularProgressIndicator();
-                  default:
-                    // aqui exibe, no console, o valor do contador
-                    print(snapshot.data);
 
-                    // aqui retorna, na tela, um número incremental
-                    return Text(
-                      snapshot.data.toString(),
-                      // '${snapshot.data}',
-                      style: TextStyle(fontSize: 34),
-                    );
-                }
-              }),
+            // Este é um Bloc
+            // StreamBuilder(
+            //   stream: _counterBloc.output,
+            //   builder: ((BuildContext context, AsyncSnapshot snapshot) {
+            //     if (snapshot.hasError) {
+            //       return Text('Error: ${snapshot.error}');
+            //     }
+            //     switch (snapshot.connectionState) {
+            //       case ConnectionState.waiting:
+            //         return CircularProgressIndicator();
+            //       default:
+            //         // aqui exibe, no console, o valor do contador
+            //         print(snapshot.data);
+
+            //         // aqui retorna, na tela, um número incremental
+            //         return Text(
+            //           snapshot.data.toString(),
+            //           // '${snapshot.data}',
+            //           style: TextStyle(fontSize: 34),
+            //         );
+            //     }
+            //   }),
+            // ),
+
+            // Código em MobX
+            Observer(
+              builder: (BuildContext context) {
+                return Text(
+                  _counterMobXCodegen.counter.toString(),
+                  style: TextStyle(fontSize: 34),
+                );
+              },
             ),
             SizedBox(height: 10),
             RaisedButton(
@@ -78,10 +96,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _counterBloc.increment,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            heroTag: null,
+            onPressed: _counterMobXCodegen.decrement,
+            tooltip: 'Decrement',
+            child: Icon(Icons.remove),
+          ),
+          SizedBox(width: 10),
+          FloatingActionButton(
+            onPressed: _counterMobXCodegen.increment,
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }
