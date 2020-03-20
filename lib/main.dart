@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:lista_tarefas_bloc/mobx/counter_mobx.dart';
-import 'package:lista_tarefas_bloc/mobx/counter_mobx_codegen.dart';
 import 'bloc/counter_bloc.dart';
+import 'package:lista_tarefas_bloc/mobx/counter_mobx.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lista_tarefas_bloc/mobx_codegen/counter_mobx_codegen.dart';
+
 import 'pages/ToDo_Bloc_Page.dart';
+import 'pages/Todo_MobX_Page.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
         home: MyHomePage(title: 'Curso de Flutter - 05 (Thizer)'),
         routes: <String, WidgetBuilder>{
           '/todo-bloc-page': (context) => ToDoBlocPage(),
+          '/todo-mobx-page': (context) => TodoMobXPage(),
         });
   }
 }
@@ -92,6 +95,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.amber,
                 onPressed: () {
                   Navigator.of(context).pushNamed('/todo-bloc-page');
+                }),
+            SizedBox(height: 10),
+            RaisedButton(
+                child: Text('Todo MobX Page'),
+                color: Colors.lime,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/todo-mobx-page');
                 }),
           ],
         ),
