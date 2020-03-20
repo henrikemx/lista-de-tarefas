@@ -39,6 +39,6 @@ class TodoMobX {
   }
 
   void _remove(int id){
-    content.where((item) => item['id'] == id);
+    content.removeWhere((item) => item['id'] == id);
   }
 }

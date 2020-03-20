@@ -17,11 +17,21 @@ class TodoMobXPage extends StatelessWidget {
       body: Center(
         child: Observer(
           builder: (BuildContext context) {
+
+                  if (_todoMobXCodegen.content.length == 0){
+                    return Text('Sem dados para exibir',
+                    style: TextStyle(
+                      fontSize: 22,
+                    ),);
+                  }
+
             return ListView.builder(
               itemCount: _todoMobXCodegen.content.length,
               itemBuilder: (BuildContext context, int i){
 
                       var item = _todoMobXCodegen.content[i];
+                      print('=====================');
+                      print('Valor de item = $item');
 
                       return ListTile(
                         leading: IconButton(

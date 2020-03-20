@@ -4,12 +4,12 @@ part 'todo_mobx_codegen.g.dart';
 class TodoMobXCodegen = TodoMobXCodegenBase with _$TodoMobXCodegen;
 
 abstract class TodoMobXCodegenBase with Store {
+  int _id = 0;
+
   TodoMobXCodegenBase(){
     addItem();
   }
 
-  int _id = 0;
-  
   @observable
   ObservableList content = ObservableList();
 
@@ -38,6 +38,8 @@ abstract class TodoMobXCodegenBase with Store {
 
   @action
   remove(int id){
-    content.where((item) => item['id'] == id);
+    content.removeWhere((item) => item['id'] == id);
+    print('===================');
+    print('O valor de id = $id');
   }
 }
